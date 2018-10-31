@@ -1,0 +1,2 @@
+$("#going<%= @event.id %>").html("<%= escape_javascript(render('going', object: @event.id)) %>");
+$("#goingto").children(".goingto<%= @event.id %>").remove();

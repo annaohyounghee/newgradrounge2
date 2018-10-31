@@ -1,0 +1,9 @@
+<% @recipient = private_conv_recipient(conversation) %>
+
+<% @is_messenger = true %>
+<%= render 'messengers/private_conversation/details' %>
+<%= render 'private/conversations/conversation/messages_list', 
+            conversation: conversation %>
+<%= render  'messengers/private_conversation/new_message_form', 
+            conversation: conversation,
+            user: user %>

@@ -1,0 +1,61 @@
+<%= form_for([@profile, @education], :remote => true) do |form| %>
+    <div class="modal-content">  
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <% if @education.errors.any? %>
+                    <div id="error_explanation" class="alert alert-danger">
+                        <h4><%= pluralize(@education.errors.count, "error")%> prohibited this reachout from being saved:</h4>
+                        <ul>
+                            <% @education.errors.full_messages.each do |message| %>
+                            <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                <% end %>
+                <label>School</label>
+                <%= form.text_field :school, id: :school, class: :"form-control" %>
+            </div>
+            <div class="col-sm-10 col-sm-offset-1">
+                <label>Degree</label>
+                <%= form.text_field :degree, id: :degree, class: :"form-control" %>     
+            </div>
+            <div class="col-sm-10 col-sm-offset-1">
+                <label>Field of study</label>
+                <%= form.text_field :field_of_study, id: :field_of_study, class: :"form-control" %> 
+            </div>
+            <div class="col-sm-10 col-sm-offset-1">
+                <label>Grade</label>
+                <%= form.text_field :grade, id: :grade, class: :"form-control" %> 
+            </div>
+            <div class="col-sm-offset-1 col-sm-4">
+                <label>From year</label>
+                <div class="input-group" id="datepicker-educational">
+                    <%= form.text_field :from_date, id: :from_date, class: :"form-control datepicker-educational" %> 
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                <label>To year</label>
+                <div class="input-group" id="datepicker-educational">
+                    <%= form.text_field :to_date, id: :to_date, class: :"form-control  datepicker-educational" %> 
+                </div>
+            </div>
+
+            <div class="col-sm-10 col-sm-offset-1">
+                <label>Description</label>
+                <%= form.text_area :description, id: :description, class: :"form-control", rows: "3" %> 
+            </div>
+        </div> <!-- /. row -->
+    </div> <!-- /.modal-content -->
+    <div class="modal-footer">
+        <%= form.submit 'Save', class: "btn btn-primary" %>  
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(".datepicker-educational").datepicker( {
+        todayHighlight: true,
+        format: "yyyy", // Notice the Extra space at the beginning
+        viewMode: "years", 
+        minViewMode: "years"
+    });
+</script>

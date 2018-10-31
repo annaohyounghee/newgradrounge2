@@ -1,0 +1,38 @@
+<% provide(:page_title, "All the feed") %>
+
+<!---MAIN SECTION-->
+<section class="container">
+    <div class="row">
+
+        <!---Left Sidebar-->
+        <aside class="col-lg-3 col-sm-3 hidden-xs sidebar-wrapper" id="left-sidebar">
+        <%= render "/layouts/leftevent_sidebar" %>
+        </aside><!--/left-sidebar-->
+
+        <!---Feeds section-->
+        <div class="col-lg-6 col-sm-6" id="feeds-content">
+            <div class="reachouts-search">
+               검색창 들어갈 곳
+            </div>
+            <div class="infinite-table">
+                <div class="table">
+                <%= render :partial => 'event', :object => @events %>
+               
+                </div>
+                <p class="pagination">
+                    다음페이지 이동
+                </p>
+            </div>
+        </div><!--/#feeds-content-->
+
+        <!-- Right sidebar -->
+        <aside class="col-lg-3 col-sm-3 hidden-xs sidebar-wrapper" id="right-sidebar">
+        <%= render "/layouts/rightevent_sidebar" %>
+        </aside>
+
+
+    </div><!--/ main row-->
+</section><!--/.MAIN SECTION-->
+
+
+

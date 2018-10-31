@@ -1,0 +1,11 @@
+<% recipient = private_conv_recipient(conversation) %>
+<%= link_to "Message", 
+                open_private_conversation_path(id: conversation.id), 
+                remote: true, 
+                method: :post,
+                class: 'btn msg-send bigger-screen-link' %>
+<%= link_to "Message", 
+            open_messenger_path(id: recipient.id, 
+                                smaller_device: true, 
+                                type: 'private'), 
+            class: 'btn msg-send smaller-screen-link' %>

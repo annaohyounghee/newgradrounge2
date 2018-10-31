@@ -1,0 +1,2 @@
+$("#going<%= @event.id %>").html("<%= escape_javascript(render('ungoing', object: @event.id)) %>");
+$("#goingto").prepend("<div class='panel-heading pinned<%= @event.id %>'> <%= escape_javascript(render('goingto', object: @event.id)) %> <div> ");

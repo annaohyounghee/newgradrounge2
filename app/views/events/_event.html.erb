@@ -1,0 +1,268 @@
+<% @events.each do |event| %>
+
+    <!---event tile-->
+<div class="panel reachout-tile" >
+    <div class="panel-footer tile-bottom-btns">
+        <div class="row">
+            <div class="col-sm-8 tile-bottom-tags"> 
+                <p class="font-weight-bold"><font size="2px" color="#999999">posted by</font> <a href="#show-wri<%= event.id %>" data-toggle="collapse"> <%= event.e_writer %></a></p>
+            </div>
+         
+            <div class="col-sm-2 tile-top-icons">
+                 <div class="btn btn-small btn-tile" >
+                 <span class="oi oi-task"></span>going
+                </div>
+            </div>    
+            
+            <div class="pin-icon"  id=<%= "going#{event.id}" %>>
+                <% if Going.where(user: current_user.id, event: event.id).exists? %>
+                    <% going = Going.where(user: current_user.id, event: event.id).first %>
+                    <%= render "ungoing", object: event.id  %>
+                <% else %>
+                    <%= render "going", object: event.id  %>
+                <% end %>
+            </div>
+      
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-5 reachout-tile-qs">
+            <img width="191" height="100" src="/assets/landing-bg.jpg" class="rounded float-left"/>
+                
+            </div>
+            <div class="col-md-7 reachout-tile-options"> 
+            <%= event.title %>
+                <ul class="list-group">
+                    <li class="list-group-item">when:<%= event.e_time %></li>
+                    <li class="list-group-item">where: <%= event.e_address %></li>
+                    <li class="list-group-item">Audience: <%= event.e_audience %></li>
+
+                </ul>
+                <%= event.e_detail %> 
+                <div class="reachout-tile-more text-right">
+                <a href="#see-more<%= event.id %>" data-toggle="collapse">See more </a>
+                 </div>
+            </div>
+        </div>
+    </div> <!-- End panel-body -->
+
+
+    
+        <div id="see-more<%= event.id %>" class="collapse">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="event-tile-rs">
+                        <div class="panel">
+                             <%= event.e_detail %> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/see-more-->
+ 
+        <div class="panel-footer tile-bottom-tags">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                <span class="label label-warning"><%= event.e_type %></span>
+                  
+                <span class="label label-primary"><%= event.e_interest %></span>
+                
+              
+                    <span class="label label-default"><%= event.e_taglist%></span>
+                    
+         
+                </div>
+            </div>
+        </div> <!-- End panel-footer -->
+
+        <div class="panel-footer tile-bottom-btns">
+            <div class="row">
+            <!-- comments  -->
+                <div class="col-sm-8 tile-top-icons"> 
+                    <a href="#show-com<%= event.id %>" data-toggle="collapse">Comments  </a>
+                </div>
+                <div class="col-sm-4 tile-top-icons">
+                    <button type="button" class="btn btn-small btn-tile" aria-label="right Align" data-toggle="modal" data-target="#shareModal" title="Share">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i> Share
+                    </button> 
+                </div>
+                <!--/show-comments-->
+                <div id="show-com<%= event.id %>" class="collapse">
+                    <div class="col-md-12">
+                        <div class="event-tile-rs">
+                            <div class="panel">
+                                <%= render partial: "eventcomments/item", locals: {eventcommentable: event} %>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!--/show-comments-->
+                
+                <!--/show-writer/current_user-->
+                <div id="show-wri<%= event.id %>" class="collapse">
+                    <div class="col-md-12">
+                        <div class="event-tile-rs">
+                            <div class="panel">
+                                 Tanyia Francois<br>
+                                Type:aaaaaaaaaaa<br>
+                                Interest:bbbbbbb<br>
+                                Reachouts:00000<br>
+                                Events:1111
+                            </div>
+                        </div>
+                    </div>
+                </div> <!--/end-writer/current_user-->             
+
+            </div><!--/end-comments&Share-->
+          
+
+        </div> <!-- /panel-footer -->     
+
+</div> <!-- End panel -->
+
+    <!-- Share modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-medium modal-share">
+            <div class="modal-content">
+                <div class="modal-header no-border-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Share with Events</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="share-search">
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-search form-control-search"></span> 
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="name" placeholder="Contact's Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2" placeholder="Write a message"></textarea>
+                    </div>
+                    <div class="share-reachout-wrapper">
+                        <!---Reachout tile-->
+                        <div class="panel reachout-tile reachout-share" id="<%= event.id %>" >
+                            <div class="panel-heading">
+                                <div class="media">
+                                    <div class="media-left">
+                                       
+
+                                        
+
+                                                                           </div> <!--/media-left-->
+                                    <div class="media-body">
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-sm-6 col-xs-4 tile-poster">
+                                            <span>      <%= event.title %> </span>
+                                                <h4 class="media-heading reachout-poster-name"></h4>
+                                                <p class="reachout-poster-major">      <%= event.e_writer %> </p>
+                                              
+                                            </div>
+
+                                           
+                                            <script>
+                                                function myFunction(id) {
+                                                    var x = document.getElementById("event"+id);
+                                                    if (x.style.display === "none") {
+                                                        x.style.display = "block";
+                                                    } else {
+                                                        x.style.display = "none";
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
+                                    </div> <!-- /Media body -->
+                                </div> <!-- /Media -->
+                            </div> <!-- /panel-heading -->
+
+                          
+
+                            <div class="panel-body">
+                                <div class="row">
+                                <table width=100% border="0">
+                                <tr>
+                                <td>
+                                 <img width="191" height="100" src="/assets/landing-bg.jpg" />
+                                </td>
+                                <td width="15">
+                                &nbsp;
+                                </td>
+                                <td width="600">  
+                                   <ul class="list-group">
+                                                <li class="list-group-item"><font color='#000000'>When :</font>      <%= event.e_time %> </li>
+                                                <li class="list-group-item"><font color='#000000'>Where:</font>      <%= event.e_address %> </li>
+                                   </ul>
+                                </td>
+                                </tr>
+                                      </table>    
+                                    
+                                </div>
+                                <p><font size="2px" color="#999999">      <%= event.e_detail %>  </font><br></p>
+                            </div> <!-- End panel-body -->
+
+                            <div class="panel-footer tile-bottom-tags">
+                                <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                                <span class="label label-warning">      <%= event.e_type %> </span>
+                              
+                                    <span class="label label-primary">      <%= event.e_interest %> </span>
+                            
+                            
+                                    <span class="label label-default">tagtag1</span>
+                                    <span class="label label-default">tagtag2</span>
+                                    <span class="label label-default">tagtag3</span>
+                            
+                            </div>
+                                </div>
+                            </div> <!-- End panel-footer -->
+
+                            <div class="panel-footer stats">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <a href="#show-comm<%= event.id %>" data-toggle="collapse"><p>Comments </p> </a>
+                                    </div>
+
+                                    <div id="show-comm<%= event.id %>" class="collapse">
+                                <div class="col-md-12">
+                                    <div class="reachout-tile-rs">
+                                        <div class="panel">
+                                        <p> comments </p>
+                                                                                
+                                        <%= render partial: "eventcomments/item", locals: {eventcommentable: event} %>
+                                          
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div> <!--/show-comments-->
+                                </div>
+                                
+                            </div> <!-- End panel-footer -->
+                           
+                            
+
+                        </div> <!-- End panel -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <center>
+                        <div class="btn btn-xs">Share
+                        </div>
+                
+                    </center>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<% end %> 
+
+
+
+
+
+
+

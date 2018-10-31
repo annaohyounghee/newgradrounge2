@@ -1,0 +1,208 @@
+<%= form_with(model: reachout, local: true) do |form| %>
+    <% if reachout.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(reachout.errors.count, "error") %> prohibited this reachout from being saved:</h2>
+            <ul>
+                <% reachout.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+                           
+    <div class="wizard-header">
+        <h3 class="wizard-title">Create a new Reachout</h3>
+        <p class="category">Please take enough time to ensure that your Reachout is clear, precise and concise.</p>
+    </div> <!-- / .wizard-header -->
+    
+    <div class="wizard-navigation">
+        <div class="progress-with-circle">
+            <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" style="width: 15%;"></div>
+        </div>
+        <ul>
+            <li>
+                <a href="#location" data-toggle="tab">
+                    <div class="icon-circle">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="required">c</div>
+                </a>
+            </li>
+            <li>
+                <a href="#facilities" data-toggle="tab">
+                    <div class="icon-circle">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </div>
+                    <div class="required">Audience</div>
+                </a>
+            </li>
+            <li>
+                <a href="#type" data-toggle="tab">
+                    <div class="icon-circle">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </div>
+                    Format
+                </a>
+            </li>
+            <li>
+                <a href="#other" data-toggle="tab">
+                    <div class="icon-circle">
+                        <i class="fa fa-tag" aria-hidden="true"></i>
+                    </div>
+                    Other
+                </a>
+            </li>
+        </ul>
+    </div> <!-- / .wizard-navigation -->
+                          
+    <div class="tab-content">
+        
+        <div class="tab-pane" id="location">
+            <div class="row">
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <%= form.label :title, class: "required" %>
+                        </div>
+                        <div class="col-sm-6 label-help">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."><i class="fa fa-lg fa-question-circle-o" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <%= form.text_field :title, id: :reachout_title, class: "form-control", placeholder: "Korem ipsum dolor sit amet, consectetur adipiscing elit"  %>
+                </div>
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label 'Description + Purpose', class: "required" %>
+                    <%= form.text_area :description, id: :description, class: "form-control", rows: '3'  %>
+                </div>
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label :back_story%>
+                    <%= form.text_area :back_story, id: :back_story, class: "form-control", rows: '3'  %>
+                </div>
+                <div class="create-field col-sm-5 col-sm-offset-1">
+                    <%= form.label :reachout_type%><br>
+                    <%= form.select(:reachout_type, options_for_select([
+                        ['Informal discussion', 'Informal discussion'],
+                        ['Group Meeting', 'Group Meeting'],
+                        ['Journal club', 'Journal club'], 
+                        ['Short-term collaboration', 'Short-term collaboration'],
+                        ['Long-term collaboration', 'Long-term collaboration'],
+                        ['Leisure meetup', 'Leisure meetup'],
+                        ['Undergraduate project', 'Undergraduate project'],
+                        ['Equipment search', 'Equipment search']]),  
+                        {}, 
+                        {class: "form-control chosen-select"}) 
+                    %>  
+                </div>
+            </div> 
+        </div> <!-- / #location -->
+        
+        <div class="tab-pane" id="type">
+            <div class="row">
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label 'Suggested Format'%><br>
+                    <%= form.text_field :format, id: :format, class: "form-control"%>
+                </div>
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label :duration%><br>
+                    <%= form.text_field :duration, id: :duration, class: "form-control"%>
+                </div>
+                <div class="create-field  col-md-offset-1 col-md-4">
+                    <%= form.label "When"%><br>
+                    <div id="datepicker-reachout">
+                        <%= form.text_field :reachout_when, id: :reachout_when, class: "form-control", "data-provide": 'datepicker'%>
+                    </div>
+                </div>
+                <div class="create-field  col-md-offset-2 col-md-4">
+                    <%= form.label "Where"%><br>
+                    <%= form.text_field :reachout_where, id: :reachout_where, class: "form-control"%>
+                </div>
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label :compensation%>
+                    <%= form.text_field :compensation, id: :compensation, class: "form-control"%>
+                </div>
+            </div>
+        </div> <!-- / #type -->
+
+        <div class="tab-pane" id="facilities">
+            <div class="row">
+                <div class="create-field col-sm-5 col-sm-offset-1">
+                    <div class="form-group">
+                        <%= form.label :audience%><br>
+                        <%= form.select(:audience, options_for_select([
+                            ['Undergraduate student', 'Undergraduate student'],
+                            ['Masters s student', 'Masters s student'],
+                            ['Doctoral student', 'Doctoral student'],
+                            ['Reasearch Assistant', 'Reasearch Assistant'], 
+                            ['Teaching Assistant', 'Teaching Assistant'],
+                            ['Postdoctoral fellow', 'Postdoctoral fellow'],
+                            ['Lecturer', 'Lecturer'],
+                            ['Professor', 'Professor']]),  
+                            {:prompt => "Please select", include_hidden: false}, 
+                            {class: "form-control chosen-select",:multiple => true}) 
+                        %> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="create-field">
+                    <div class="form-group">
+                        <div class="col-sm-5 col-sm-offset-1">
+                            <%= form.label "Particular fields of interest"%><br>
+                            <%= form.select(:audience, options_for_select([
+                                ['Engineering', 'Engineering'],
+                                ['Medical Fields', 'Medical Fields']]),  
+                                {}, 
+                                {class: "form-control chosen-select", :disabled => true }) 
+                            %><br>
+
+                            <%= form.select(:audience, options_for_select([
+                                ['Engineering', 'Engineering'],
+                                ['Medical Fields', 'Medical Fields']]),  
+                                {}, 
+                                {class: "form-control chosen-select", :disabled => true }) 
+                            %><br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label "Tags (minimum 3, maximum 10)"%><br>
+                    <%= form.text_field :tag_list, id: :tag_list, "data-role": "tagsinput", class: "bootstrap-tagsinput" %>
+                </div>
+            </div>
+        </div> <!-- / #facilities -->
+
+        <div class="tab-pane" id="other">
+            <div class="row">
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <%= form.label :miscellaneous%>
+                    <%= form.text_area :miscellaneous, id: :miscellaneous, class: "form-control", rows: '3'  %>
+                </div>
+            </div>
+        </div> <!-- / #description -->
+
+    </div> <!-- / #tab-content -->
+
+    <div class="wizard-footer">
+        <div class="pull-right">
+            <input type='button' class='btn btn-next' name='next' value='Next' />
+            <%= form.submit 'finish', class: "btn btn-finish", value: 'Publish' %>                
+        </div>
+        <div class="pull-left">
+            <input type='button' class='btn btn-previous' name='previous' value='Previous' />
+        </div>
+        <div class="clearfix"></div>
+    </div> <!-- /wizard footer -->
+<% end %>
+
+<script type="text/javascript">
+    $(function() {
+  // enable chosen js
+  return $('.chosen-select').chosen({
+    width: '200px'
+  });
+});
+</script>

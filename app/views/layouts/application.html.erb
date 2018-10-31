@@ -1,0 +1,38 @@
+<html>
+    
+    <head>
+        <title><%= yield(:page_title) %> | GradLounge</title>
+        <!-- To make heroku device styling working -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%= Gon::Base.render_data %>
+        <%= csrf_meta_tags %>
+        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+        <!-- Custom fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+    </head>
+
+  
+    <body>    
+        <% unless ((controller_name == "registrations") || (controller_name == "sessions")|| (controller_name == "passwords"))  %>
+            <header id="header">
+                <%= render "/layouts/header" %>
+            </header>
+            <div class="container" id="notice-wrapper">
+                <% flash.each do |key, value| %>
+                    <!-- Remove alert: Already signed in -->
+                    <% unless (current_page?("/reachouts") && (key == "alert")) %> 
+                        <div class="alert-hide alert alert-<%= key %>"><%= value %></div>
+                    <% end %>
+                <% end %>
+            </div>
+            
+            <%= yield %>
+            <%= render 'layouts/application/private_conversations_windows' %>
+            <%= render 'layouts/application/group_conversations_windows' %>
+        <% else %>
+            <%= yield %>
+        <% end %>
+    </body>
+
+</html>

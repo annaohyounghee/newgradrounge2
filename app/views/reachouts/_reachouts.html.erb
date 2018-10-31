@@ -1,0 +1,282 @@
+<% @reachouts.each do |reachout| %>
+    <!---Reachout tile-->
+    <div class="panel reachout-tile" id=<%="reachout#{reachout.id}"%> >
+        <div class="panel-heading">
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+
+                    <%= cl_image_tag(User.find(reachout.user_id).avatar.url, class: "media-object img-circle") %>
+
+                    </a>
+                </div> <!--/media-left-->
+                <div class="media-body">
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-6 col-xs-4 tile-poster">
+                            <% if (reachout.user_id == current_user.id) %>
+                                <%= link_to "#{ User.find(reachout.user_id).first_name.capitalize } #{User.find(reachout.user_id).last_name.capitalize}", edit_profile_path(User.find(reachout.user_id)) %>
+                            <% else %>
+                                <%= link_to "#{ User.find(reachout.user_id).first_name.capitalize } #{User.find(reachout.user_id).last_name.capitalize}", profile_path(User.find(reachout.user_id)) %>
+                            <% end %>
+                            <h4 class="media-heading reachout-poster-name"> </h4></a>
+                            <p class="reachout-poster-major"><%= User.find(reachout.user_id).position.capitalize %></p>
+                            <p class="reachout-tile-time"><%= time_ago_in_words(reachout.created_at) %> ago</p>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-8  tile-top-icons">
+                            <div class="pin-icon"  id=<%= "pin#{reachout.id}" %>>
+                                <% if Pin.where(user: current_user.id, reachout: reachout.id).exists? %>
+                                    <% pin = Pin.where(user: current_user.id, reachout: reachout.id).first %>
+                                    <%= render "unpin", object: reachout.id  %>
+                                <% else %>
+                                    <%= render "pin", object: reachout.id  %>
+                                <% end %>
+                            </div>
+                            <div class="save-icon" id=<%= "save#{reachout.id}" %>>
+                                <% if Save.where(user: current_user.id, reachout: reachout.id).exists? %>
+                                    <% save = Save.where(user: current_user.id, reachout: reachout.id).first %>
+                                    <%= render "unsave", object: reachout.id  %>
+                                <% else %>
+                                    <%= render "save", object: reachout.id  %>
+                                <% end %>
+                            </div>
+                             <a role="button" onclick="myFunction(<%=reachout.id%>)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                             </a>
+                        </div>
+                        <script>
+                            function myFunction(id) {
+                                var x = document.getElementById("reachout"+id);
+                                if (x.style.display === "none") {
+                                    x.style.display = "block";
+                                } else {
+                                    x.style.display = "none";
+                                }
+                            }
+                        </script>
+                    </div>
+                </div> <!-- /Media body -->
+            </div> <!-- /Media -->
+        </div> <!-- /panel-heading -->
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 reachout-tile-qs">
+                    <%= link_to reachout.title, reachout_path(reachout) %>
+                </div>
+                <div class="col-md-8 reachout-tile-options">
+                    <ul class="list-group">
+                        <li class="list-group-item">Suggested Format: <%= reachout.reachout_type %></li>
+                        <li class="list-group-item">Estimated Duration: <%= reachout.duration %></li>
+                        <li class="list-group-item">Audience: <%= reachout.audience.join(", ") %></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- End panel-body -->
+
+        <div class="panel-footer tile-bottom-tags">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                    <span class="label label-warning"><%= reachout.reachout_type %></span>
+                    <% reachout.interest.each do |interest| %>
+                        <span class="label label-primary"><%= interest %></span>
+                    <% end %>
+                    <% reachout.tag_list.each do |tag| %>
+                        <span class="label label-default"><%= tag %></span>
+                    <% end %>
+                </div>
+            </div>
+        </div> <!-- End panel-footer -->
+
+        <div class="panel-footer stats">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <a href="#show-qa<%= reachout.id %>" data-toggle="collapse"><p>Comments <%= reachout.comments.count %></p> </a>
+                    <p>&nbsp-&nbsp</p>
+                    <p>Seen by <%= reachout.impressionist_count %></p>
+                </div>
+            </div>
+        </div> <!-- End panel-footer -->
+
+        <div class="panel-footer tile-bottom-btns">
+            <div class="row">
+                <div class="btn-group col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" class="btn btn-small btn-tile" aria-label="Center Align" data-toggle="modal" data-target="#shareModal" title="Share">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i> Share
+                    </button> 
+                    <div id = <%= reachout.id %> >      
+                        <% if reachout.followed_by?(current_user) %>
+                                <%= render "unfollow", object: reachout.id  %>
+                        <% elsif current_user != User.find(reachout.user_id) %>
+                                <%= render "follow", object: reachout.id  %>
+                        <%end%>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="reachout-tile-more text-right">
+                        <a href="#see-more<%= reachout.id %>" data-toggle="collapse">See more </a>
+                        <!-- <a href="#show-qa<%= reachout.id %>" data-toggle="collapse">Show Q/A</a><br> -->
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /panel-footer -->
+
+        <div id="see-more<%= reachout.id %>" class="collapse">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="reachout-tile-rs">
+                        <div class="panel">
+                            <%= reachout.description %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!--/see-more-->
+
+        <div id="show-qa<%= reachout.id %>" class="collapse">
+            <%= render partial: "comments/comment", locals: {commentable: reachout} %>
+        </div> <!--/show-qa-->
+
+    </div> <!-- End panel -->
+
+    <!-- Share modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog modal-medium modal-share">
+            <div class="modal-content">
+                <div class="modal-header no-border-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Share with your contacts</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="share-search">
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-search form-control-search"></span> 
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Contact's Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2" placeholder="Write a message"></textarea>
+                    </div>
+                    <div class="share-reachout-wrapper">
+                        <!---Reachout tile-->
+                        <div class="panel reachout-tile reachout-share" id=<%="reachout#{reachout.id}"%> >
+                            <div class="panel-heading">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+
+                                        <%= cl_image_tag(User.find(reachout.user_id).avatar.url, class: "media-object img-circle") %>
+
+                                        </a>
+                                    </div> <!--/media-left-->
+                                    <div class="media-body">
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-sm-6 col-xs-4 tile-poster">
+                                                <% if (reachout.user_id == current_user.id) %>
+                                                    <%= link_to "#{ User.find(reachout.user_id).first_name.capitalize } #{User.find(reachout.user_id).last_name.capitalize}", edit_profile_path(User.find(reachout.user_id)) %>
+                                                <% else %>
+                                                    <%= link_to "#{ User.find(reachout.user_id).first_name.capitalize } #{User.find(reachout.user_id).last_name.capitalize}", profile_path(User.find(reachout.user_id)) %>
+                                                <% end %>
+                                                <h4 class="media-heading reachout-poster-name"> </h4></a>
+                                                <p class="reachout-poster-major"><%= User.find(reachout.user_id).position.capitalize %></p>
+                                                <p class="reachout-tile-time"><%= time_ago_in_words(reachout.created_at) %> ago</p>
+                                            </div>
+
+                                            <div class="col-md-6 col-sm-6 col-xs-8  tile-top-icons">
+                                                <div class="pin-icon"  id=<%= "pin#{reachout.id}" %>>
+                                                    <% if Pin.where(user: current_user.id, reachout: reachout.id).exists? %>
+                                                        <% pin = Pin.where(user: current_user.id, reachout: reachout.id).first %>
+                                                        <%= render "unpin", object: reachout.id  %>
+                                                    <% else %>
+                                                        <%= render "pin", object: reachout.id  %>
+                                                    <% end %>
+                                                </div>
+                                                <div class="save-icon" id=<%= "save#{reachout.id}" %>>
+                                                    <% if Save.where(user: current_user.id, reachout: reachout.id).exists? %>
+                                                        <% save = Save.where(user: current_user.id, reachout: reachout.id).first %>
+                                                        <%= render "unsave", object: reachout.id  %>
+                                                    <% else %>
+                                                        <%= render "save", object: reachout.id  %>
+                                                    <% end %>
+                                                </div>
+                                                 <a role="button" onclick="myFunction(<%=reachout.id%>)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                 </a>
+                                            </div>
+                                            <script>
+                                                function myFunction(id) {
+                                                    var x = document.getElementById("reachout"+id);
+                                                    if (x.style.display === "none") {
+                                                        x.style.display = "block";
+                                                    } else {
+                                                        x.style.display = "none";
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
+                                    </div> <!-- /Media body -->
+                                </div> <!-- /Media -->
+                            </div> <!-- /panel-heading -->
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12 reachout-tile-qs">
+                                        <%= link_to reachout.title, reachout_path(reachout) %>
+                                    </div>
+                                    <div class="col-md-8 reachout-tile-options">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Suggested Format: <%= reachout.reachout_type %></li>
+                                            <li class="list-group-item">Estimated Duration: <%= reachout.duration %></li>
+                                            <li class="list-group-item">Audience: <%= reachout.audience.join(", ") %></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> <!-- End panel-body -->
+
+                            <div class="panel-footer tile-bottom-tags">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <span>
+                                            <%= raw reachout.tag_list.map { |t| link_to t, reachouts_path(tag: t), {class: "label label-warning"} }.join(' ') %>
+                                            <span class="label label-primary"><%= reachout.reachout_type %></span>
+                                            <% reachout.interest.each do |interest| %>
+                                                <span class="label label-default"><%= interest %></span>
+                                            <% end %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div> <!-- End panel-footer -->
+
+                            <div class="panel-footer stats">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <a href="#show-qa<%= reachout.id %>" data-toggle="collapse"><p>Comments <%= reachout.comments.count %></p> </a>
+                                        <p>&nbsp-&nbsp</p>
+                                        <p>Seen by <%= reachout.impressionist_count %></p>
+                                    </div>
+                                </div>
+                            </div> <!-- End panel-footer -->
+                            
+                        </div> <!-- End panel -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn btn-xs">Share</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<% end %>
+
+
+
+

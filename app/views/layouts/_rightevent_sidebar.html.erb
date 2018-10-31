@@ -1,0 +1,43 @@
+<div class="sidebar">
+  
+
+        <h5>Events calendar</h5> 
+       
+        	          		
+        		                   
+                    <div id="my-calendar" class="calendar-events">
+                    
+                    <script type="application/javascript">
+                    $(document).ready(function () {
+                        $("#my-calendar").zabuto_calendar({
+                            language: "en",
+                            cell_border: false,
+                            today: true,
+                            show_days: true,
+                            weekstartson: 0
+                                                    
+                            
+                            });
+                    });
+                </script>
+                
+                <!-- use fixed data -->
+
+            <script type="application/javascript">
+                var eventData = [
+                {"date":"2018-10-10","badge":true,"title":"Example 1"},
+                {"date":"2018-10-20","badge":true,"title":"Example 2"}
+                ];
+            
+                $(document).ready(function () {
+                    $("#my-calendar").zabuto_calendar({
+                        data: eventData
+                    });
+                });
+            </script>
+                </div>
+  
+  <%= link_to "Add event", new_event_path %>
+</div>
+
+

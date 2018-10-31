@@ -1,0 +1,146 @@
+<%= form_with(model: event, local: true) do |form| %>
+
+<div id="msform">
+
+    <fieldset>
+            <h2 class="fs-title">Add event</h2>
+            <h3 class="fs-subtitle">please share your previous event</h3>
+        <div id="description">
+               
+                <div class="create-field col-sm-5 col-sm-offset-1">
+                    <div class="row">
+                        <%= form.label :event_type%><br>
+                        <%= form.select(:e_type, options_for_select([
+                       ['Informal discussion', 'Informal discussion'],
+                       ['Group Meeting', 'Group Meeting'],
+                       ['Journal club', 'Journal club'], 
+                       ['Short-term collaboration', 'Short-term collaboration'],
+                       ['Long-term collaboration', 'Long-term collaboration'],
+                       ['Leisure meetup', 'Leisure meetup'],
+                       ['Undergraduate project', 'Undergraduate project'],
+                       ['Equipment search', 'Equipment search']]),  
+                       {}, 
+                       {class: "form-control chosen-select"}) 
+                        %>  
+                    </div>
+                </div> 
+
+             
+
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <div class="row">
+                        <div class="col-sm-6">  
+                            <%= form.label:title%><br>
+                        
+                            <%= form.text_field:title, class: "form-control"%>                
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <div class="row">
+                        <div class="col-sm-10">  
+                            <%= form.label:when%><br>
+                         
+                            <%= form.datetime_select(:e_time, start_year:2018, prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'},:order => [:month, :day, :year] )%>                
+                        </div>
+                    </div>
+                </div>
+
+                <div class="create-field col-sm-10 col-sm-offset-1">                          
+                    <div class="row">
+                        <div class="col-sm-6">   
+                            <%= form.label:Detail%><br>
+                            <%= form.text_field:e_detail, rows: '3', class: "form-control"%>   
+                       </div>
+                    </div>        
+                </div>
+                
+                <div class="create-field col-sm-10 col-sm-offset-1">
+                    <div class="row">
+                        <div class="col-sm-6"> 
+                          <%= form.label:Where%><br>
+                            <%= form.text_field:e_address, rows: '1', class: "form-control"%>    
+                                    
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="create-field col-sm-5 col-sm-offset-1">
+                        <div class="form-group">
+                                    <%= form.label :audience%><br>
+                                    <%= form.select(:e_audience, options_for_select([
+                                        ['Undergraduate student', 'Undergraduate student'],
+                                        ['Masters s student', 'Masters s student'],
+                                        ['Doctoral student', 'Doctoral student'],
+                                        ['Reasearch Assistant', 'Reasearch Assistant'], 
+                                        ['Teaching Assistant', 'Teaching Assistant'],
+                                        ['Postdoctoral fellow', 'Postdoctoral fellow'],
+                                        ['Lecturer', 'Lecturer'],
+                                        ['Professor', 'Professor']]),  
+                                        {:prompt => "Please select", include_hidden: false}, 
+                                        {class: "form-control chosen-select",:multiple => true}) 
+                                    %> 
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="create-field col-sm-5 col-sm-offset-1">
+                        <div class="form-group">
+                                <%= form.label "Fields of interest"%><br>
+                               <% grouped_options = {
+                              'Arts' => ['Anthropology', 'Architecture', 'Art History', 'Communication', 'East Asian Studies', 'Economics', 'Education', 'Educational and Counselling Psychology', 'Gender Studies', 'History', 'Information Studies', 'International Development', 'Islamic Studies', 'Jewish Studies', 'Linguistics', 'Literature', 'Media Studies', 'Philosophy', 'Religious Studies', 'Social Work', 'Society, Technology, and Development', 'Sociology', 'Urban Planning'],
+                              'Management' => ['Accounting', 'Economics', 'Entrepreneurship', 'Finance', 'Food Security', 'Hospitality Management', 'Industrial Organization', 'International Management', 'Management', 'Management Consulting', 'Marketing', 'Real Estate', 'Supply Chain Management'],
+                              'Engineering' => ['Aerospace Engineering', 'Bioresource Engineering', 'Chemical Engineering', 'Civil Engineering', 'Computer Engineering', 'Electrical Engineering', 'Materials Engineering', 'Mining Engineering', 'Software Engineering', 'Urban Planning'],
+                              'Science' => ['Advanced Materials', 'Anatomy', 'Applied Mechanics', 'Architecture', 'Atmospheric Sciences',  'Biochemistry', 'Biodiversity', 'Bioinformatics', 'Biology', 'Cell Biology', 'Chemistry', 'Computer Science', 'Earth Sciences', 'Environmental Sciences', 'Geography', 'Geology', 'Natural Resource Sciences', 'Neuroscience', 'Oceanic Sciences', 'Parasitology', 'Physics', 'Physiology', 'Planetary Sciences', 'Plant Science', 'Psychology', 'Statistics', 'Urban Planning'],
+                              'Medical Fields' => ['Anatomy', 'Anesthesia', 'Biochemistry', 'Biostatistics', 'Cell Biology', 'Dentistry', 'Dermatology', 'Dietetics', 'Epidemiology', 'Genetics', 'Global Health', 'Gynecology', 'Immunology', 'Internal Medicine', 'Medicine', 'Microbiology', 'Neurology', 'Neuroscience', 'Nursing', 'Nutrition', 'Obstetrics', 'Oncology', 'Ophtalmology', 'Otolaryngology', 'Parasitology', 'Pediatrics', 'Pharmacology', 'Pharmacy', 'Physiology', 'Plastic and Reconstructive Surgery', 'Psychiatry', 'Psychology', 'Radiology', 'Surgery','Urology']
+                               } %>
+                               <%= form.select(:e_interest, grouped_options_for_select(grouped_options),  
+                                {:prompt => "Please select", include_hidden: false}, 
+                                {class: "form-control chosen-select",:multiple => true}) 
+                                %> 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="create-field col-sm-10 col-sm-offset-1">
+                        <%= form.label "Tags (minimum 3, maximum 10)"%><br>
+                        <%= form.text_field :e_taglist, 'data-role'=>'tagsinput', value: form.object.e_taglist.to_s%>  
+                        <h6 class="form-help">* Please press enter to save a tag !</h6>                    
+                    </div>
+                </div>
+
+    
+
+
+                         
+        </div> <!-- / #location -->
+           
+        <%= form.submit 'Submit', class: "btn", value: 'Create Event' %>  
+    </fieldset>
+
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+    $(function() {
+    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+  });
+</script>
+
+<script type="text/javascript">
+    // Prevent enter key from submitting forms
+    $(".bootstrap-tagsinput").on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
+</script>
+
+

@@ -1,0 +1,5 @@
+<%= link_to "Message", 
+                private_conversations_path(user_id: user.id), 
+                remote: true, 
+                method: :post,
+                class: "btn msg-send" %>

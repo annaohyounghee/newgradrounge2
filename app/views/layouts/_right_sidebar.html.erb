@@ -1,0 +1,17 @@
+<div class="sidebar">
+    <div id="my-calendar"></div>
+    <div class="calendar-events">
+        <h5>Pinned Reachouts</h5> 
+        <div id="pinned" class="panel panel-default"> 
+        	<% if Pin.where(user: current_user.id).exists? %>
+            	<% @pins = Pin.where(user: current_user.id) %>
+            	<% @pins.each do |pin| %>            		
+        			<div class='panel-heading pinned<%= pin.reachout %>'>
+        				<%= render "pinned", object: pin.reachout  %>
+        			</div>            		
+            	<% end %>
+           	<% end %>
+        </div>    
+    </div>
+</div>
+

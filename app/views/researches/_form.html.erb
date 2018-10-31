@@ -1,0 +1,25 @@
+<%= form_for([@profile, @research], :remote => true) do |form| %>
+
+    <div class="modal-content"> 
+        <div class="row"> 
+            <div class="col-sm-10 col-sm-offset-1">
+                <% if @research.errors.any? %>
+                    <div id="error_explanation" class="alert alert-danger">
+                        <h4><%= pluralize(@research.errors.count, "error")%> prohibited this reachout from being saved:</h4>
+                        <ul>
+                            <% @research.errors.full_messages.each do |message| %>
+                            <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                <% end %>
+                <label>Description</label>
+                <%= form.text_area :description, id: :description, class: :"form-control", rows: "3" %> 
+            </div>
+        </div> <!-- /. row -->
+    </div> <!-- /.modal-content -->
+    <div class="modal-footer">
+        <%= form.submit 'Save', class: "btn btn-primary" %>  
+    </div>
+<% end %>
+

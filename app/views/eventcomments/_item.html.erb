@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile-forum-wrapper">
+            <div class="panel">
+                <div class="panel-body">
+                    <ul class="media-list">
+                        
+                        <% eventcommentable.eventcomments.each do |eventcomment| %>
+                             <li class="media forum-qs">
+                                <a href="#" class="pull-left">
+                                    <%= cl_image_tag(User.find(eventcomment.user_id).avatar.url, class: "media-object img-circle") %>
+                                </a>
+                                <div class="media-body">
+                                    <span class="text-muted pull-right">
+                                        <small class="reachout-tile-time "><%= time_ago_in_words(eventcomment.created_at) %> ago</small>
+                                    </span>
+                                    <strong class="text-orange">
+                                        <% if (eventcomment.user_id == current_user.id) %>
+                                            <%= link_to "#{ User.find(eventcomment.user_id).first_name.capitalize } #{User.find(eventcomment.user_id).last_name.capitalize}", edit_profile_path(User.find(eventcomment.user_id)) %>
+                                        <% else %>
+                                            <%= link_to "#{ User.find(eventcomment.user_id).first_name.capitalize } #{User.find(eventcomment.user_id).last_name.capitalize}", profile_path(User.find(eventcomment.user_id)) %>
+                                        <% end %>
+                                    </strong>
+                                    <p>
+                                        <%= eventcomment.content %>
+                                    </p>
+                                </div>
+                            </li>    
+                            <% if eventcomment.has_children? %>
+                                <% eventcomment.children.each do |reply| %>
+                                    <li class="media forum-rs">
+                                        <a href="#" class="pull-left">
+                                            <%= cl_image_tag(User.find(reply.user_id).avatar.url, class: "media-object img-circle") %>
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="text-muted pull-right">
+                                                <small class="reachout-tile-time "><%= time_ago_in_words(reply.created_at) %> ago</small>
+                                            </span>
+                                            <strong class="text-orange">
+                                                <% if (reply.user_id == current_user.id) %>
+                                                    <%= link_to "#{ User.find(reply.user_id).first_name.capitalize } #{User.find(reply.user_id).last_name.capitalize}", edit_profile_path(User.find(reply.user_id)) %>
+                                                <% else %>
+                                                    <%= link_to "#{ User.find(reply.user_id).first_name.capitalize } #{User.find(reply.user_id).last_name.capitalize}", profile_path(User.find(reply.user_id)) %>
+                                                <% end %>
+                                            </strong>
+                                            <p>
+                                                <%= reply.content %>
+                                            </p>
+                                        </div>
+                                    </li>
+                                <% end %>
+                            <% end %>
+
+                            <div class="reply-wrapper">
+                                <div class="reply-avatar">
+                                    <%= cl_image_tag(current_user.avatar.url, class: "media-object img-circle") %>
+                                </div>
+                                <div class="reply-content">
+                                    <%= form_with(model: Eventcomment, url:  [eventcommentable, Eventcomment.new], local: true) do |f| %>
+                                        <%= f.text_area :content, id: :content, class: "form-control", rows: '1'  %>
+                                        <%= f.hidden_field :event_id, value: eventcomment.id %>
+                                        <%= f.submit "Reply", class: "pull-left btn btn-xs msg-send"%>
+                                    <% end %>
+                                </div>
+                            </div>
+                            
+                        <% end %>
+                    </ul>
+                    <div class="comment-wrapper">
+                        <div class="comment-avatar">
+                            <%= cl_image_tag(current_user.avatar.url, class: "media-object img-circle") %>
+                        </div>
+                        <div class="comment-content">
+                            <%= form_with(model: Eventcomment, url: [eventcommentable, Eventcomment.new], local: true) do |f| %>
+                                <%= f.text_area :content,  placeholder: 'Leave your comment', id: :content, class: "form-control", rows: "1"  %>
+                                <%= f.submit "Comment", class: "pull-left btn btn-xs msg-send"%>
+                            <% end %>
+                        </div>
+                    </div>
+                </div> <!-- End panel-body -->
+            </div> <!-- End panel -->
+        </div> <!-- End forum-wrapper -->
+    </div>
+</div> <!-- End row -->

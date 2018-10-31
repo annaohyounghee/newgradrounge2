@@ -1,0 +1,87 @@
+<div class="sidebar">
+    <!---User Profile Card-->
+    <div class="card hovercard">
+          <div class="cardheader">
+          </div>
+          <div class="avatar">
+              <%= cl_image_tag(current_user.avatar.url)%>
+          </div>
+          <div class="info">
+              <div class="title">
+                  <p><%= link_to "#{current_user.first_name.capitalize} #{current_user.last_name.capitalize}" ,edit_profile_path(current_user.profile.id)%></p>
+              </div>
+              <div class="desc"><%= current_user.position.capitalize %></div>
+              <!-- <div class="desc">Neuroscience, Department of Psychology</div> -->
+              <div class="bottom table-responsive">
+                <table class="table text-center">
+                  <thead>
+                    <tr>
+                      <th>Posts</th>
+                      <th>Comments</th>
+                      <th>Awards</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><%= current_user.reachouts.count %></td>
+                      <td><%= Comment.where(user_id: current_user.id).count %></td>
+                      <td class = "award-sidemenu"><%= image_tag Award.find_by(profile_id: current_user.profile.id).image %></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+    </div> <!--/User Profile Card--->
+    <!-- Sidebar sub-menu -->
+    <div class="nav-side-menu">
+        <div class="menu-list">
+            <ul id="menu-content" class="menu-content out">
+                <li class = <%= current_class?('/reachouts') %> >
+                  <%= link_to root_path do %>
+                        <i class="fa fa-lg fa-home" aria-hidden="true"></i> Home  
+                    <% end %>
+                </li>
+                <!-- <p class="menu-title"> Community </p> -->
+                <li class = <%= current_class?('/users') %>>
+                    <%= link_to users_path do %>
+                        <i class="fa fa-lg fa-users" aria-hidden="true"></i> Users
+                    <% end %>
+                </li>
+                <!-- <li>
+                    <a href="#" class="disabled"><img src="assets/img/006-chat.png"> Pages</a>
+                </li> -->
+                <!-- <p class="menu-title"> Personnal </p> -->
+                <!-- <li>
+                    <a href="my_contacts.html"><img src="assets/img/002-agenda.png">  My contacts</a>
+                </li> -->
+                <!-- <li data-toggle="collapse" data-target="#pages" class="collapsed">
+                    <a href="#"><img src="assets/img/001-dialog.png">  My pages <span class="arrow"></span></a>
+                </li> -->
+                <ul class="sub-menu collapse" id="pages">
+                    <li><%= link_to "Saved", saved_path %></li>
+                    <li><%= link_to "Created", created_path %></li>
+                    <li><%= link_to "Followed", followed_path %></li>
+                </ul>
+                <!-- <li data-toggle="collapse" data-target="#events" class="collapsed">
+                    <a href="#"><img src="assets/img/004-calendar.png"> My events <span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="events">
+                    <li>Created</li>
+                    <li>Following</li>
+                </ul> -->
+
+                <li>
+                  <a  data-toggle="collapse" data-target="#reachouts" class="collapsed">
+                      <i class="fa fa-lg fa-handshake-o" aria-hidden="true"></i> My reachouts
+                      <span class="arrow" ></span>
+                  </a>
+                </li>
+                <ul class="sub-menu collapse" id="reachouts">
+                    <li><%= link_to "Saved", saved_path %></li>
+                    <li><%= link_to "Created", created_path %></li>
+                    <li><%= link_to "Watching", followed_path %></li>
+                </ul>
+            </ul>
+        </div> <!--/Menu-list-->
+    </div> <!--/nav-side-menu-->
+</div> <!--/sidebar-->

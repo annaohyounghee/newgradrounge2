@@ -1,0 +1,47 @@
+<% provide(:page_title, "Created Reachouts") %>
+
+<!---MAIN SECTION-->
+<section class="container">
+    <div class="row">
+
+        <!---Left Sidebar-->
+        <aside class="col-lg-3 col-sm-3 hidden-xs sidebar-wrapper" id="left-sidebar">
+            <%= render "/layouts/left_sidebar" %>
+        </aside><!--/left-sidebar-->
+
+        <!---Main section-->
+        <div class="col-lg-9 col-sm-9 white" id="created-reachouts">
+            <h4>Created Reachouts</h4>
+            <div class="table-responsive">                          
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                        <th>Title</th>
+                        <th>Created</th>
+                        <th>Views</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </thead>
+                    <% @reachouts.each do |reachout| %>
+                        <tbody>
+                            <tr>
+                                <td><%= link_to reachout.title, reachout_path(reachout) %></td>
+                                <td><%= reachout.created_at.strftime("%b %d, %Y") %></td>
+                                <td><%= reachout.impressionist_count %></td>
+                                <td>
+                                    <%= button_to edit_reachout_path(reachout), method: :get, class: 'btn btn-xs edit' do %>
+                                         <span class="glyphicon glyphicon-pencil"></span>
+                                     <% end %>
+                                </td>
+                                <td>
+                                    <%= button_to [reachout] , method: :delete, class: 'btn btn-xs delete', data: { confirm: 'Are you sure?' } do %>
+                                         <span class="glyphicon glyphicon-trash"></span>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <% end %>                   
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

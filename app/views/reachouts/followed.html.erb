@@ -1,0 +1,42 @@
+<% provide(:page_title, "Watched Reachouts") %>
+
+<!---MAIN SECTION-->
+<section class="container">
+    <div class="row">
+
+        <!---Left Sidebar-->
+        <aside class="col-lg-3 col-sm-3 hidden-xs sidebar-wrapper" id="left-sidebar">
+            <%= render "/layouts/left_sidebar" %>
+        </aside><!--/left-sidebar-->
+
+        <!---Main section-->
+        <div class="col-lg-9 col-sm-9 white" id="created-reachouts">
+            <h4>Followed Reachouts</h4>
+            <div class="table-responsive">                          
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                        <th>Title</th>
+                        <th>Watched at</th>
+                        <th>Views</th>
+                        <th>Unfollow</th>
+                    </thead>
+                    <% @follows.each do |follow| %>
+                    <% reachout = Reachout.find(follow.followable_id) %>
+                        <tbody>
+                            <tr>
+                                <td><%= link_to reachout.title, reachout_path(reachout) %></td>
+                                <td><%= follow.created_at.strftime("%b %d, %Y") %></td>
+                                <td><%= reachout.impressionist_count %></td>
+                                <td>
+                                    <%= button_to reachouts_unfollow_path(id: reachout.id), class: 'btn btn-xs unfollow', data: { confirm: 'Are you sure?' } do %>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <% end %>                   
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

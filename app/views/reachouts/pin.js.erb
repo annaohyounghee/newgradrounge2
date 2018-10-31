@@ -1,0 +1,2 @@
+$("#pin<%= @reachout.id %>").html("<%= escape_javascript(render('unpin', object: @reachout.id)) %>");
+$("#pinned").prepend("<div class='panel-heading pinned<%= @reachout.id %>'> <%= escape_javascript(render('pinned', object: @reachout.id)) %> <div> ");

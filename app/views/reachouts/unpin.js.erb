@@ -1,0 +1,2 @@
+$("#pin<%= @reachout.id %>").html("<%= escape_javascript(render('pin', object: @reachout.id)) %>");
+$("#pinned").children(".pinned<%= @reachout.id %>").remove();

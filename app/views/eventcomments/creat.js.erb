@@ -1,0 +1,6 @@
+(function($){
+    $("#eventcomment_content").val("")
+  //  $("#eventcomments").append("<li><%= @eventcomment.content %></li>");
+  var html = "<%= escape_javascript(render(partial: 'eventcomments/item', locals: {eventcomment: @eventcomment})) %>";
+  $("#eventcomments").append(html);
+  })(jQuery)

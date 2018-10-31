@@ -1,0 +1,202 @@
+<% provide(:page_title, "Landing") %>
+<body id="landing" data-spy="scroll" data-target=".navbar-fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-landing navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="feeds.html">
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#why">Why</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                    <li><%= link_to "Log in", new_user_session_path %></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container" id="notice-wrapper-landing">
+                <% flash.each do |key, value| %>
+                    <div class="alert alert-<%= key %>"><%= value %></div>
+                <% end %>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-wrapper">
+                            <div class="form-top text-center">
+                                <h2>Sign Up Now</h2>
+                                <h5>Fill in the form below to get instant access:</h5>
+                            </div>
+                            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+                                <div class="left">
+                                    <%= devise_error_messages! %>
+                                </div>
+                                <div class="form-group">
+                                    <%= f.email_field :email, autofocus: true, placeholder: 'Email', class: 'form-control' %>
+                                 </div>
+                                  <div class="form-group">
+                                    <%= f.password_field :password, autocomplete: "off", placeholder: 'Password', class: 'form-control'  %>
+                                  </div>
+                                <div class="chosen-custom-container">
+                                    <%= f.select(:position, options_for_select([
+                                        ['Undergraduate student', 'Undergraduate student'],
+                                        ['Masters s student', 'Masters s student'],
+                                        ['Doctoral student', 'Doctoral student'],
+                                        ['Reasearch Assistant', 'Reasearch Assistant'], 
+                                        ['Teaching Assistant', 'Teaching Assistant'],
+                                        ['Postdoctoral fellow', 'Postdoctoral fellow'],
+                                        ['Lecturer', 'Lecturer'],
+                                        ['Professor', 'Professor']]),  
+                                        {:prompt => "Please select"}, 
+                                        {class: "chosen-select"}) 
+                                    %> 
+                                </div>
+                            <div class="actions">
+                              <%= f.submit "Sign up", class: 'btn btn-form btn-lg btn-block' %>
+                            </div>
+                          <% end %>
+                            <div class="form-bottom text-center">
+                                <h6>Already have an account?  <%= link_to 'Login', new_user_session_path %> </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 slogan">
+                        <h1>Take your research to a new level</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About GradLounge</h2>
+                <h4 class="light">The central aim of GradLounge is to expedite problem solving and troubleshooting in research, as departments continue to grow and become decentralized across city buildings.</h4>
+                <h4 class="light">GradLounge addresses this issue through individual profiles detailing the student’s institutional information, proficiency in technologies and topics, as well as availability to collaborate.</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Section -->
+    <section id="why" class="text-center">
+        <div class="why-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Why GradLounge</h2>
+                    <!-- Three columns of text  -->
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <%= image_tag("http://res.cloudinary.com/darri/image/upload/v1517606250/003-group_zcgx8f.png", size: "120x120", alt: "Collaboration & Quality icon", class: "img-circle") %>
+                        <h3 class="why-subtitile">Collaboration & Quality</h3>
+                        <h4 class="light">We enable you to benefit from the full potential of your commnunity by giving you a one-stop solution to find the best collaboration partners.</h4>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <%= image_tag("http://res.cloudinary.com/darri/image/upload/v1517606250/002-skill_q1lbvy.png", size: "120x120", alt: "Contribution & Skill Mastery icon", class: "img-circle") %>
+                        <h3 class="why-subtitile">Contribution & Skill Mastery</h3>
+                        <h4 class="light">we want to help you to make the best out of your graduate experience by making it easy for you to find and contact peers with complimentary skill set on campus.</h4>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <%= image_tag("http://res.cloudinary.com/darri/image/upload/v1517606250/001-startup_demywq.png", size: "120x120", alt: "Autonomy & Ownershi icon", class: "img-circle") %>
+                        <h3 class="why-subtitile">Autonomy & Ownership</h3>
+                        <h4 class="light">Take your research to a new level by taking advantage of the complementary knowledge of your peers.</h4>
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Contact us</h2>
+                <h4 class="light">Feel free to email us to provide some feedback on our plateform, give us suggestions, or just say hello!</h4>
+                <h4 class="light email-contact-wrapper"><a href="#" data-toggle="modal" data-target="#contactModal">feedback@gradlounge.io</a>
+                </h4>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <button href="#" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></button>
+                    </li>
+                    <li>
+                        <button href="#" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></button>
+                    </li>
+                    <li>
+                        <button href="#" class="btn btn-default btn-lg"><i class="fa fa-instagram fa-fw"></i> <span class="network-name">Instagram</span></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <h5>&copy; 2018, made with <i class="fa fa-heart heart"></i> by GradLounge Team</h5>
+        </div>
+    </footer>
+
+    <!-- Contact modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-hidden="false">
+      <div class="modal-dialog modal-medium modal-contact">
+        <div class="modal-content">
+          <div class="modal-header no-border-header text-center">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            <h3 class="modal-title">Let's get together</h3>
+          </div>
+          <div class="modal-body">
+            <%= flash[:notice] %>
+            <%= form_with(url: '/thank_you', local: true) do |form| %>
+
+                  <div class="form-group">
+                    <%= form.text_field :name, class: "form-control", placeholder: "What's your Name" %>
+                  </div>        
+                  <div class="form-group">
+                    <%= form.text_field :email, class: "form-control", placeholder: "Where can we email you back ?" %>
+                  </div>
+                  <div class="form-group">
+                    <%= form.text_area :message, class: "form-control", rows: "7", placeholder: "What's on your mind ?" %>
+                    </div>
+              <%= form.submit "Send", class: "btn btn-lg btn-block" %>   
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end contact modal -->
+</body>
+
