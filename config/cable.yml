@@ -1,0 +1,10 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://redistogo:9e4e1619bc4f6112f1ac172f37f9dc27@soldierfish.redistogo.com:11575/
+  channel_prefix: gradlounge_production
